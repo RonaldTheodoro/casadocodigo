@@ -1,7 +1,10 @@
 package br.com.casadocodigo.loja.beans;
 
 import br.com.casadocodigo.loja.daos.LivroDAO;
+import br.com.casadocodigo.loja.models.Autor;
 import br.com.casadocodigo.loja.models.Livro;
+import java.util.Arrays;
+import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -20,6 +23,13 @@ public class AdminLivrosBean {
         dao.salvar(livro);
     }
 
+    public List<Autor> getAutores() {
+        return Arrays.asList(
+            new Autor(1, "Paulo Silveira"),
+            new Autor(2, "Sergio Lopes")
+        );
+    }
+    
     public Livro getLivro() {
         return livro;
     }
