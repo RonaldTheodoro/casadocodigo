@@ -1,33 +1,44 @@
 package br.com.casadocodigo.loja.beans;
 
+import br.com.casadocodigo.loja.daos.AutorDAO;
 import br.com.casadocodigo.loja.daos.LivroDAO;
 import br.com.casadocodigo.loja.models.Autor;
 import br.com.casadocodigo.loja.models.Livro;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.inject.Model;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-import javax.inject.Named;
 import javax.transaction.Transactional;
 
-@Named
-@RequestScoped
+@Model
 public class AdminLivrosBean {
 
     private Livro livro = new Livro();
+    private List<Integer> autoresId = new ArrayList<>();
     @Inject
-    private LivroDAO dao;
+    private LivroDAO livroDAO;
+    @Inject
+    private AutorDAO autorDAO;
     
     @Transactional
-    public void salvar() {
-        dao.salvar(livro);
+    public String salvar() {
+        for (Integer autorId : autoresId)
+            livro.getAutores().add(new Autor(autorId));
+        
+        livroDAO.salvar(livro);
+        
+        FacesContext.getCurrentInstance()
+            .getExternalContext().getFlash().setKeepMessages(true);
+        FacesContext.getCurrentInstance()
+            .addMessage(null, new FacesMessage("Livro cadastrado com sucesso"));
+        
+        return "/livros/lista?faces-redirect=true";
     }
 
     public List<Autor> getAutores() {
-        return Arrays.asList(
-            new Autor(1, "Paulo Silveira"),
-            new Autor(2, "Sergio Lopes")
-        );
+        return autorDAO.listar();
     }
     
     public Livro getLivro() {
@@ -36,6 +47,14 @@ public class AdminLivrosBean {
 
     public void setLivro(Livro livro) {
         this.livro = livro;
+    }
+
+    public List<Integer> getAutoresId() {
+        return autoresId;
+    }
+
+    public void setAutoresId(List<Integer> autoresId) {
+        this.autoresId = autoresId;
     }
     
 }
