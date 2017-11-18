@@ -47,16 +47,23 @@
             <h:message for="preco"/>
         </div>
         <div>
+            <h:outputLabel value="Data de publicação"/>
+            <h:inputText
+                id="dataPublicacao"
+                value="#{adminLivrosBean.livro.dataPublicacao}"/>
+            <h:message for="dataPublicacao"/>
+        </div>
+        <div>
             <h:outputLabel value="Autores"/>
             <h:selectManyListbox
                 id="autores"
-                value="#{adminLivrosBean.autoresId}"
-                converter="javax.faces.Integer"
+                value="#{adminLivrosBean.livro.autores}"
+                converter="autorConverter"
                 required="true">
                 <f:selectItems 
                     value="#{adminLivrosBean.autores}"
                     var="autor"
-                    itemValue="#{autor.id}" 
+                    itemValue="#{autor}" 
                     itemLabel="#{autor.nome}"/>
             </h:selectManyListbox>
             <h:message for="autores"/>

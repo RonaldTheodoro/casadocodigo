@@ -4,7 +4,6 @@ import br.com.casadocodigo.loja.daos.AutorDAO;
 import br.com.casadocodigo.loja.daos.LivroDAO;
 import br.com.casadocodigo.loja.models.Autor;
 import br.com.casadocodigo.loja.models.Livro;
-import java.util.ArrayList;
 import java.util.List;
 import javax.enterprise.inject.Model;
 import javax.faces.application.FacesMessage;
@@ -16,7 +15,6 @@ import javax.transaction.Transactional;
 public class AdminLivrosBean {
 
     private Livro livro = new Livro();
-    private List<Integer> autoresId = new ArrayList<>();
     
     @Inject
     private LivroDAO livroDAO;
@@ -27,9 +25,6 @@ public class AdminLivrosBean {
     
     @Transactional
     public String salvar() {
-        for (Integer autorId : autoresId)
-            livro.getAutores().add(new Autor(autorId));
-        
         livroDAO.salvar(livro);
         
         context.getExternalContext().getFlash().setKeepMessages(true);
@@ -48,14 +43,6 @@ public class AdminLivrosBean {
 
     public void setLivro(Livro livro) {
         this.livro = livro;
-    }
-
-    public List<Integer> getAutoresId() {
-        return autoresId;
-    }
-
-    public void setAutoresId(List<Integer> autoresId) {
-        this.autoresId = autoresId;
     }
     
 }
