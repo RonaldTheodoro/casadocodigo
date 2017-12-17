@@ -11,7 +11,7 @@
         <title>Casa do Código - Cadastro de livros</title>
     </h:head>
 
-    <h:form>
+    <h:form enctype="multipart/form-data">
         <div>
             <h:outputLabel value="Título"/>
             <h:inputText
@@ -67,6 +67,11 @@
                     itemLabel="#{autor.nome}"/>
             </h:selectManyListbox>
             <h:message for="autores"/>
+        </div>
+        <div>
+            <h:outputLabel value="Capa do livro"/>
+            <h:inputFile value="#{adminLivrosBean.capaLivro}" id="capaLivro"/>
+            <h:message for="capaLivro"/>
         </div>
         <h:commandButton
             value="Cadastrar" action="#{adminLivrosBean.salvar()}"/>
